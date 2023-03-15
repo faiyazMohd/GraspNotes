@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/alerts/AlertContext";
 import { Link } from "react-router-dom";
-
+const  BASE_URL = process.env.REACT_APP_BASE_URL;
 const Login = () => {
   const alertContext = useContext(AlertContext);
   const { showAlert } = alertContext;
@@ -13,7 +13,7 @@ const Login = () => {
   };
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+    const response = await fetch(`${BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import NoteContext from "./NoteContext";
 import AlertContext from "../alerts/AlertContext";
 const NoteSate = (props) => {
-  const host = "http://localhost:5000";
+  const host = process.env.REACT_APP_BASE_URL;
+
   const notesInitial = [];
   const [notes, setNotes] = useState(notesInitial);
   const alertContext = useContext(AlertContext);
@@ -25,6 +26,7 @@ const NoteSate = (props) => {
 
   // Function to Add a Note
   const addNote = async (title, description, tag) => {
+    tag = tag===""?tag="general":tag;
     //API Call
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",

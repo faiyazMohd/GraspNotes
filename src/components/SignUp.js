@@ -1,6 +1,7 @@
 import React, { useState,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/alerts/AlertContext";  
+const  BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const SignUp = () => {
   const alertContext = useContext(AlertContext);
@@ -19,7 +20,7 @@ const SignUp = () => {
     event.preventDefault();
     if (signupCred.password === signupCred.cpassword) {
       const response = await fetch(
-        `http://localhost:5000/api/auth/createuser`,
+        `${BASE_URL}/api/auth/createuser`,
         {
           method: "POST",
           headers: {

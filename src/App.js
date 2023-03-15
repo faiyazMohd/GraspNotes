@@ -8,6 +8,7 @@ import Alert from "./components/Alert";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import AlertState from "./context/alerts/AlertState";
+import Footer from "./components/Footer";
 function App() {
   return (
     <>
@@ -22,6 +23,7 @@ function App() {
               <Route exact path="/signup" element={<SignUp />} />
               <Route exact path="/login" element={<Login />} />
             </Routes>
+            <Footer/>
           </BrowserRouter>
         </NoteSate>
       </AlertState>
