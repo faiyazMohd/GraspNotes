@@ -33,7 +33,7 @@ const Login = () => {
     showAlert(json.success, json.msg);
   };
   return (
-    <div className="container">
+    <div className="container"  style={{minHeight:"90vh"}}>
       <h1>Login to GraspNotes</h1>
       <form onSubmit={handleLoginSubmit}>
         <div className="mb-3">

@@ -11,7 +11,7 @@ const SignUp = () => {
     email: "",
     password: "",
     cpassword: "",
-  });
+  }); 
   const navigate = useNavigate();
   const handleOnChange = (event) => {
     setSignupCred({ ...signupCred, [event.target.name]: event.target.value });
@@ -47,7 +47,7 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="container">
+    <div className="container"  style={{minHeight:"90vh"}}>
       <h1>SignUp to GraspNotes</h1>
       <form onSubmit={handleSignupSubmit}>
         <div className="mb-3">

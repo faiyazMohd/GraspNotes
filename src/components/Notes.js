@@ -50,7 +50,7 @@ const Notes = () => {
   };
   return (
     <>
-      <div className="container">
+      <div className="container"  style={{minHeight:"90vh"}}>
         <AddNote />
         <button
           ref={ref}
