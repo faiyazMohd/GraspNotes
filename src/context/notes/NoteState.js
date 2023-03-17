@@ -8,6 +8,10 @@ const NoteSate = (props) => {
   const [notes, setNotes] = useState(notesInitial);
   const alertContext = useContext(AlertContext);
   const { showAlert } = alertContext;
+  const [userEmail, setUserEmail] = useState();
+
+  //Function to set UserName 
+  
 
   //Function to Fetch All Notes
   const fetchAllNotes = async () => {
@@ -77,7 +81,7 @@ const NoteSate = (props) => {
   };
   return (
     <NoteContext.Provider
-      value={{ notes, addNote, editNote, deleteNote, fetchAllNotes }}
+      value={{ notes, addNote, editNote, deleteNote, fetchAllNotes ,userEmail, setUserEmail}}
     >
       {props.children}
     </NoteContext.Provider>

@@ -1,6 +1,10 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/alerts/AlertContext";  
+import jwt_decode from "jwt-decode";
+import NoteContext from "../context/notes/NoteContext";
+
+
 const  BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const SignUp = () => {
@@ -13,6 +17,9 @@ const SignUp = () => {
     cpassword: "",
   }); 
   const navigate = useNavigate();
+  const context = useContext(NoteContext);
+  const {setUserEmail} = context;
+
   const handleOnChange = (event) => {
     setSignupCred({ ...signupCred, [event.target.name]: event.target.value });
   };
@@ -37,6 +44,9 @@ const SignUp = () => {
       if (json.success) {
         // Save the auth token and redirect
         localStorage.setItem("token", json.authToken);
+      localStorage.setItem("userEmail",signupCred.email);
+
+        setUserEmail(signupCred.email)
         navigate("/");
         setSignupCred({ name: "", email: "", password: "" });
       }
@@ -46,6 +56,54 @@ const SignUp = () => {
         showAlert(false, "Password and Confirm Password does not match");
     }
   };
+
+  // Addin Login with google 
+  const clientID =process.env.REACT_APP_CLIENT_ID;
+  const handleCredentialResponse =  async (googleResponse)=> {
+    // console.log("Encoded JWT ID token : " + response.credential);
+    let userObject = jwt_decode(googleResponse.credential);
+    // console.log(userObject);
+    // setUserGoogle(userObject); 
+    const response = await fetch(`${BASE_URL}/api/auth/googlesignin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: userObject.name,
+        email: userObject.email
+      }),
+    });
+    const json = await response.json();
+    if (json.success) {
+      // Save the auth token and redirect
+      localStorage.setItem("token", json.authToken);
+      localStorage.setItem("userEmail",userObject.name);
+      setUserEmail(userObject.email)
+      navigate("/");
+    }
+    showAlert(json.success, json.msg);
+  }
+  
+ 
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: clientID,
+      callback: handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      { 
+        'scope': 'profile email',
+        'width': 150,
+        'height': 70,
+        'longtitle': false,
+        'theme': 'dark',
+      }// customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+  }, );
   return (
     <div className="container"  style={{minHeight:"90vh"}}>
       <h1>SignUp to GraspNotes</h1>
@@ -118,6 +176,10 @@ const SignUp = () => {
           Login
         </button>
       </form>
+      <h4 className="text-center">OR</h4>
+        <div className="container my-3 d-flex justify-content-center align-items-center">
+          <div id="signInDiv"></div>
+        </div>
     </div>
   );
 };

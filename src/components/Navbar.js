@@ -8,6 +8,7 @@ function Navbar() {
   let location = useLocation();
  const handleLogoutClick = ()=>{
   localStorage.removeItem('token')
+  localStorage.removeItem('userEmail')
   showAlert(true, "Logged Out Successffully");
  }
   React.useEffect(() => {
@@ -45,7 +46,7 @@ function Navbar() {
           {!localStorage.getItem('token')?<form className="d-flex" role="search">
           <Link className="btn btn-primary mx-2" role="button" to={"/signup"}>SignUp</Link>
           <Link className="btn btn-primary mx-2" role="button" to={"/login"}>Login</Link>
-          </form>:<Link onClick={handleLogoutClick} className="btn btn-primary mx-2" role="button" to={"/login"}>Logout</Link>}
+          </form>:<div className="d-flex"><p className="text-light mx-2 h6">Welcome <br/>{localStorage.getItem("userEmail")}</p><Link onClick={handleLogoutClick} className="btn btn-primary" role="button" to={"/login"}>Logout</Link></div>}
         </div>
       </div>
     </nav>
